@@ -21,7 +21,7 @@
 // Babel handles this without us having to do anything. It just works.
 // You can read more about the new JavaScript features here:
 // https://babeljs.io/docs/learn-es2015/
-
+import config from './gulp.config';
 import fs from 'fs';
 import path from 'path';
 import gulp from 'gulp';
@@ -178,6 +178,15 @@ gulp.task('serve', ['styles'], () => {
   gulp.watch(['app/styles/**/*.{scss,css}'], ['styles', reload]);
   gulp.watch(['app/scripts/**/*.js'], ['jshint']);
   gulp.watch(['app/images/**/*'], reload);
+});
+
+gulp.task('wiredep', () => {
+    var options = config().getWiredepDefaulOptions();
+    var wiredep = require('wiredep').stream;
+    return gulp
+        .src(config().index)
+        .pipe(wiredep(options))
+        .pipe(gulp.dest(config().sourceDirectory));
 });
 
 // Build and serve the output from the dist build

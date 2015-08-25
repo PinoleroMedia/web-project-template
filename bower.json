@@ -1,0 +1,25 @@
+{
+  "name": "Web-project-template",
+  "version": "0.5.0",
+  "homepage": "https://github.com/PinoleroMedia/web-project-template",
+  "authors": [
+    "LRPalacios <lpalacios@pinoleromedia.com>"
+  ],
+  "description": "A template for quick start a web project ",
+  "keywords": [
+    "PinoleroMedia",
+    "Web project template"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "lib",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "material-design-lite": "~1.0.4"
+  }
+}
