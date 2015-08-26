@@ -1,5 +1,12 @@
 There are many commands available to help you build and test sites. Here are a few highlights to get started with.
 
+## Install with bower
+
+```sh
+$ bower install <pkg> --save
+```
+If the pkg has it's bower.json correctly configured it should be inserted [with wieredep](https://github.com/taptapship/wiredep) in your index.html file 
+
 ## Watch For Changes & Automatically Refresh Across Devices
 
 ```sh
