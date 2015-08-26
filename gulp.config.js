@@ -2,6 +2,7 @@ module.exports = function () {
     var client = './';
     var sourceDirectory = 'app/';
     var indexHtml = 'index.html';
+    var scriptDirectory = sourceDirectory + 'scripts/';
 
     var config = {
         
@@ -15,10 +16,11 @@ module.exports = function () {
         index: sourceDirectory + indexHtml,
 
         /* Include or exlude here all the js that you want to be 
-        * compressed and injected into you base.html
+        * compressed and injected into you index.html 
+        * if the order is important for you then you need to specify them here one by one in the correct order
         */
         js: [
-            sourceDirectory + 'scripts/**/*.js',
+            scriptDirectory + '**/*.js'
         ],
 
         /* Include or exlude here all the css that you want to be 
@@ -27,7 +29,20 @@ module.exports = function () {
         css: [
              sourceDirectory + 'styles/**/*.css'
         ],
+
+        fonts: [
+            sourceDirectory + 'fonts/**',
+            sourceDirectory +'lib/**/*.eot',
+            sourceDirectory +'lib/**/*.ttf',
+            sourceDirectory +'lib/**/*.woff',
+        ],
         
+         /* This is where your compressed files will be 
+         *  created, some people prefer to call this 'build' instead of 'this' 
+         */
+        build: 'dist/',
+
+
         /* 
          * These are the settings for you bower configuration
          */
@@ -42,7 +57,7 @@ module.exports = function () {
         * These are the settings for you inject css
         */
         injectCssOptions: {
-            ignorePath: '/app/',
+            ignorePath: '/' + sourceDirectory,
             transform: function (filepath) {
                 return '<link rel="stylesheet" href="' + filepath.replace('/', '') + '">';
             }
@@ -52,7 +67,7 @@ module.exports = function () {
        * These are the settings for you inject css
        */
         injectJsOptions: {
-            ignorePath: '/app/',
+            ignorePath: '/' + sourceDirectory,
             transform: function (filepath) {
                 return '<script type="text/javascript" src="' + filepath.replace('/', '') + '"></script>';
             }

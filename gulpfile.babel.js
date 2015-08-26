@@ -16,6 +16,7 @@ import pkg from './package.json';
 
 const $ = gulpLoadPlugins();
 const reload = browserSync.reload;
+const gulpConfig = config(); 
 
 // Lint JavaScript
 gulp.task('jshint', () =>
@@ -42,6 +43,7 @@ gulp.task('copy', () =>
   gulp.src([
     'app/*',
     '!app/*.html',
+    '!app/lib',
     'node_modules/apache-server-configs/dist/.htaccess'
   ], {
     dot: true
@@ -51,7 +53,7 @@ gulp.task('copy', () =>
 
 // Copy web fonts to dist
 gulp.task('fonts', () =>
-  gulp.src(['app/fonts/**'])
+  gulp.src(gulpConfig.fonts)
     .pipe(gulp.dest('dist/fonts'))
     .pipe($.size({title: 'fonts'}))
 );
@@ -106,48 +108,47 @@ gulp.task('scripts', () =>
     .pipe($.size({title: 'scripts'}))
 );
 
+gulp.task('wiredep', () => {
+    var options = gulpConfig.getWiredepDefaulOptions();
+    var wiredep = require('wiredep').stream;
+    return gulp
+        .src(gulpConfig.index)
+        .pipe(wiredep(options))
+        .pipe(gulp.dest(gulpConfig.sourceDirectory));
+});
+
 gulp.task('inject', () => {
     // var injectCssOptions = config.getInjectDefaultCssOptions();
-    console.log(config());
-    var injectJsOptions = config().getInjectDefaultJsOptions();
+    var injectJsOptions = gulpConfig.getInjectDefaultJsOptions();
     return gulp
         .src(config().index)
      //   .pipe($.inject(gulp.src(config.css), injectCssOptions))
-        .pipe($.inject(gulp.src(config().js), injectJsOptions))
-        .pipe(gulp.dest(config().sourceDirectory));
+        .pipe($.inject(gulp.src(gulpConfig.js), injectJsOptions))
+        .pipe(gulp.dest(gulpConfig.sourceDirectory));
 });
 
 // Scan your HTML for assets & optimize them
 gulp.task('html', () => {
   const assets = $.useref.assets({searchPath: '{.tmp,app}'});
+  var cssFilter = $.filter('**/*.css', { restore:true });
+  var jsFilter = $.filter('**/*.js', { restore:true }); 
 
-  return gulp.src('app/**/*.html')
-    .pipe(assets)
-    // Remove any unused CSS
-    // Note: If not using the Style Guide, you can delete it from
-    //       the next line to only include styles your project uses.
-    .pipe($.if('*.css', $.uncss({
-      html: [
-        'app/index.html'
-      ],
-      // CSS Selectors for UnCSS to ignore
-      ignore: [
-        /.navdrawer-container.open/,
-        /.app-bar.open/
-      ]
-    })))
+  return gulp
+        .src(gulpConfig.index)
+        .pipe($.plumber())
+        .pipe(assets)
+        .pipe(cssFilter)
+        .pipe($.minifyCss())
+        .pipe(cssFilter.restore)
+        .pipe(jsFilter)
+        .pipe($.uglify())
+        .pipe(jsFilter.restore)
+        .pipe(assets.restore())
+        .pipe($.useref())
+        .pipe($.if('*.html', $.minifyHtml()))
+        .pipe(gulp.dest(gulpConfig.build))
+        .pipe($.size({title: 'html'}));
 
-    // Concatenate and minify styles
-    // In case you are still using useref build blocks
-    .pipe($.if('*.css', $.minifyCss()))
-    .pipe(assets.restore())
-    .pipe($.useref())
-
-    // Minify any HTML
-    .pipe($.if('*.html', $.minifyHtml()))
-    // Output files
-    .pipe(gulp.dest('dist'))
-    .pipe($.size({title: 'html'}));
 });
 
 // Clean output directory
@@ -168,17 +169,8 @@ gulp.task('serve', ['styles', 'inject'], () => {
 
   gulp.watch(['app/**/*.html'], reload);
   gulp.watch(['app/styles/**/*.{scss,css}'], ['styles', reload]);
-  gulp.watch(['app/scripts/**/*.js'], ['jshint']);
+  gulp.watch(['app/scripts/**/*.js'], ['inject','jshint']);
   gulp.watch(['app/images/**/*'], reload);
-});
-
-gulp.task('wiredep', () => {
-    var options = config().getWiredepDefaulOptions();
-    var wiredep = require('wiredep').stream;
-    return gulp
-        .src(config().index)
-        .pipe(wiredep(options))
-        .pipe(gulp.dest(config().sourceDirectory));
 });
 
 // Build and serve the output from the dist build
