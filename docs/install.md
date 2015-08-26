@@ -4,7 +4,7 @@
 
 -
 
-To take advantage of Web Starter Kit you need to:
+To take advantage of this template you need to:
 
 1. Get a copy of the code.
 2. Install the dependencies if you don't already have them.
@@ -13,7 +13,7 @@ To take advantage of Web Starter Kit you need to:
 
 ## Getting the code
 
-[Download](https://github.com/PinoleroMedia/web-project-template/releases/latest) and extract WSK to where you want to work.
+[Download](https://github.com/PinoleroMedia/web-project-template/releases/latest) and extract to where you want to work.
 
 ## Prerequisites
 
@@ -38,13 +38,13 @@ $ npm install --global gulp
 
 ### Local dependencies
 
-Next, install the local dependencies Web Starter Kit requires:
+Next, install the local dependencies that the template requires:
 
 ```sh
 $ npm install
 ```
 
-That's it! You should now have everything needed to use the Web Starter Kit.
+That's it! You should now have everything needed to use the template.
 
 -
 
