@@ -106,6 +106,17 @@ gulp.task('scripts', () =>
     .pipe($.size({title: 'scripts'}))
 );
 
+gulp.task('inject', () => {
+    // var injectCssOptions = config.getInjectDefaultCssOptions();
+    console.log(config());
+    var injectJsOptions = config().getInjectDefaultJsOptions();
+    return gulp
+        .src(config().index)
+     //   .pipe($.inject(gulp.src(config.css), injectCssOptions))
+        .pipe($.inject(gulp.src(config().js), injectJsOptions))
+        .pipe(gulp.dest(config().sourceDirectory));
+});
+
 // Scan your HTML for assets & optimize them
 gulp.task('html', () => {
   const assets = $.useref.assets({searchPath: '{.tmp,app}'});
@@ -143,7 +154,7 @@ gulp.task('html', () => {
 gulp.task('clean', cb => del(['.tmp', 'dist/*', '!dist/.git'], {dot: true}, cb));
 
 // Watch files for changes & reload
-gulp.task('serve', ['styles'], () => {
+gulp.task('serve', ['styles', 'inject'], () => {
   browserSync({
     notify: false,
     // Customize the BrowserSync console logging prefix
@@ -188,7 +199,7 @@ gulp.task('serve:dist', ['default'], () =>
 gulp.task('default', ['clean'], cb =>
   runSequence(
     'styles',
-    ['jshint', 'html', 'scripts', 'images', 'fonts', 'copy'],
+    ['jshint', 'html', 'inject', 'images', 'fonts', 'copy'],
     'generate-service-worker',
     cb
   )
