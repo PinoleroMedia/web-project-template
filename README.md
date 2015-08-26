@@ -6,7 +6,7 @@
 
 ## Quickstart
 
-[Download](https://github.com/google/web-starter-kit/releases/latest) the kit or clone this repository and build on what is included in the `app` directory.
+[Download](https://github.com/PinoleroMedia/web-project-template/releases/latest) the kit or clone this repository and build on what is included in the `app` directory.
 
 Be sure to look over the [installation docs](docs/install.md) to verify your environment is prepared to run WSK.
 Once you have verified that your system can run WSK, check out the [commands](docs/commands.md) available to get started.
