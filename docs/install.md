@@ -1,6 +1,6 @@
 # Install
 
-**tl;dr**: [Download the web project template](https://github.com/google/web-starter-kit/releases/latest) and run `$ npm install --global gulp && npm install` in that directory to get started.
+[Download the web project template](https://github.com/google/web-starter-kit/releases/latest) and run `$ npm install --global gulp && npm install` in that directory to get started.
 
 -
 
