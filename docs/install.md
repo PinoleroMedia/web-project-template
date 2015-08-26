@@ -13,7 +13,7 @@ To take advantage of Web Starter Kit you need to:
 
 ## Getting the code
 
-[Download](https://github.com/google/web-starter-kit/releases/latest) and extract WSK to where you want to work.
+[Download](https://github.com/PinoleroMedia/web-project-template/releases/latest) and extract WSK to where you want to work.
 
 ## Prerequisites
 
