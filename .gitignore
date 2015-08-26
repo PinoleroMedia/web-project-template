@@ -2,3 +2,10 @@ node_modules
 dist
 .tmp
 app.yaml
+
+#bower components
+app/lib
+
+# system files
+*.db
+.DS_Store
