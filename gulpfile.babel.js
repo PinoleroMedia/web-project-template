@@ -92,22 +92,6 @@ gulp.task('styles', () => {
     .pipe($.size({title: 'styles'}));
 });
 
-// Concatenate and minify JavaScript
-gulp.task('scripts', () =>
-  gulp.src([
-    // Note: Since we are not using useref in the scripts build pipeline,
-    //       you need to explicitly list your scripts here in the right order
-    //       to be correctly concatenated
-    './app/scripts/main.js'
-    // Other scripts
-  ])
-    .pipe($.concat('main.min.js'))
-    .pipe($.uglify({preserveComments: 'some'}))
-    // Output files
-    .pipe(gulp.dest('dist/scripts'))
-    .pipe($.size({title: 'scripts'}))
-);
-
 gulp.task('wiredep', () => {
     var options = gulpConfig.getWiredepDefaulOptions();
     var wiredep = require('wiredep').stream;
